@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Profesional -</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* --- RESET Y ESTILOS GLOBALES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* --- Splash Screen --- */
+        #splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        #splash img {
+            width: 280px;
+            animation: zoom 1.7s ease-in-out forwards;
+        }
+
+        @keyframes zoom {
+            0% { transform: scale(0.4); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0; visibility: hidden; }
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background-color: white;
+            position: relative;
+            padding-bottom: 90px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* --- CABECERA DINÁMICA CON ANIMACIÓN --- */
+        .header-cover {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            /* CAMBIO CLAVE: Transición suave de 1.2s para el cambio de imagen */
+            transition: background-image 1.2s ease-in-out; 
+            padding: 15px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .top-logo img {
+            height: 40px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); /* Sombra para legibilidad */
+        }
+
+        /* --- SECCIÓN DE PERFIL --- */
+        /* --- SECCIÓN DE PERFIL (Actualizado para eliminar huecos) --- */
+.profile-section {
+    text-align: center;
+    margin-top: -65px; /* Mantenemos el ajuste sobre la portada */
+    padding: 0 20px;
+    z-index: 2;
+}
+
+/* 1. El Contenedor Circular: El "marco" */
+.profile-img-container {
+    width: 135px; /* Tu tamaño original */
+    height: 135px;
+    margin: 0 auto;
+    border-radius: 50%;
+    border: 4px solid #0067b1; /* El borde azul */
+    background: white;
+    overflow: hidden; /* ¡VITAL! Corta el exceso de imagen para mantener el círculo */
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1); /* Sombra suave */
+    
+    /* Centrado perfecto adentro */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 2. La Imagen: Lo que va ADENTRO (Aquí está la corrección) */
+.profile-img-container img {
+    /* ESTOS CAMBIOS ELIMINAN EL HUECO */
+    width: 100%;  /* Obliga a la imagen a ocupar todo el ancho del círculo */
+    height: 100%; /* Obliga a la imagen a ocupar todo el alto del círculo */
+    object-fit: cover; /* ¡EL CAMBIO MÁGICO! Escala la imagen para llenar el círculo sin deformarla */
+    
+    /* Ajuste de posición: 'center' suele funcionar, pero 'top' centrará mejor el rostro si la foto original tiene aire arriba */
+    object-position: top center; 
+}
+
+        /* Estadísticas organizadas DEBAJO de la foto */
+        .stats-below {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 15px 0;
+        }
+
+        .stat-box {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.3;
+        }
+
+        .name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .role {
+            font-size: 15px;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        /* --- BOTONES Y REDES --- */
+        .action-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .action-button {
+            padding: 10px 22px;
+            background-color: #0067b1;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .action-button:hover {
+            background-color: #1c8bd4;
+        }
+        .social-bar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .social-bar a { color: #0067b1; text-decoration: none; transition: color 0.2s; }
+        .social-bar a:hover { color: #0b80ce; }
+
+        /* --- Sección de Aseguradoras --- */
+/* 1. El contenedor principal limita el ancho visual */
+.aseguradoras-section {
+  background-color: #ffffff;
+  padding: 10px 0; /* Quitamos padding lateral para que el slider llegue a las orillas si es necesario */
+  text-align: center;
+  width: 100%;
+  overflow: hidden; /* Corta los logos que salen del cuadro */
+}
+
+/* 2. El "marco" por donde pasan los logos */
+.slider-client {
+  width: 90%; /* O el porcentaje de ancho que quieras que ocupe en tu pantalla */
+  max-width: 1200px; /* Ancho máximo de tu diseño */
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 3. La tira de logos */
+.slider {
+  display: flex;
+  width: max-content; /* IMPORTANTE: Mantiene a los logos en una sola fila larga */
+  gap: 30px; /* Espacio entre logos, ajusta a tu gusto */
+  animation: scroll 20s infinite linear;
+}
+
+.slider img {
+  width: 170px; /* Tamaño de los logos */
+  height: 80px;  /* Altura fija para que todos se vean alineados */
+  object-fit: contain;
+  flex-shrink: 0; /* Evita que los logos se hagan chiquitos para caber */
+  transition: filter 0.3s, transform 0.3s;
+}
+
+.slider img:hover {
+  transform: scale(1.1);
+}
+
+/* 4. Animación Infinita Perfecta */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Cálculo: (Ancho logo 150px + Gap 60px) * 14 logos = 2940px */
+    transform: translateX(-2940px);
+  }
+}
+
+/* --- Ajuste opcional para la Grid (si la usas en otra parte) --- */
+.aseguradoras-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.aseguradoras-grid img {
+  width: 150px; /* Ajustado de 1000px a algo real para una grid */
+  height: auto;
+  object-fit: contain;
+  background-color: #ffffff;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+<!-- Sección de Aseguradoras Termina-->
+
+
+        /* --- PRODUCTOS --- */
+.section-content { 
+    padding: 0 20px; 
+    margin-bottom: 30px; 
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px; /* Espacio entre productos y aseguradoras */
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    text-align: center;
+    text-decoration: none; /* Quita subrayado del link */
+    color: inherit;
+    transition: transform 0.2s;
+}
+
+.card:hover { transform: translateY(-3px); }
+
+/* Imagen para productos normales (fotos) */
+.card img { 
+    width: 100%; 
+    height: 110px; 
+    object-fit: cover; 
+}
+
+/* --- ESTILO PARA HACER NIPPONFLEX MÁS PEQUEÑO --- */
+.card-mini img {
+    width: 80%;
+    height: 100px; /* Reducimos la altura significativamente */
+    object-fit: contain; /* Para que el logo no se corte */
+    padding: 15px; /* Espacio interno para que no toque los bordes */
+}
+
+.card p { 
+    padding: 8px; 
+    font-size: 13px; 
+    font-weight: 600; 
+}
+
+/* --- SECCIÓN ASEGURADORAS (Resumen) --- */
+.aseguradoras-section {
+    padding: 10px 0;
+    overflow: hidden;
+}
+
+.slider {
+    display: flex;
+    gap: 35px;
+    width: max-content;
+    animation: scroll 25s infinite linear;
+}
+
+.slider img {
+    width: 150px;
+    height: 120px; /* Logos de aseguradoras más compactos */
+    object-fit: contain;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-2310px); } /* (130px + 35px) * 14 */
+}
+
+        /* --- MENÚ INFERIOR CORREGIDO --- */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: 450px;
+    height: 70px; /* Un poco más bajo para que sea elegante */
+    background-color: #0067b1;
+    display: flex; /* Flexbox principal */
+    flex-direction: row; /* ICONOS EN HORIZONTAL */
+    justify-content: space-around; /* Espacio igual entre ellos */
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.bottom-nav a {
+    text-decoration: none;
+    color: #ffffff; /* Fuerza el color blanco */
+    display: flex;
+    flex-direction: column; /* Icono arriba, texto abajo */
+    align-items: center;
+    flex: 1; /* Para que cada botón tenga el mismo ancho */
+}
+
+.nav-item { 
+    font-size: 11px; 
+    text-align: center; 
+    font-weight: 500;
+}
+
+.nav-item i { 
+    font-size: 22px; 
+    margin-bottom: 4px; 
+}
+        .center-circle {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border: 4px solid #0067b1;
+            border-radius: 50%;
+            margin-top: -40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #0067b1;
+            font-size: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+       
+
+    </style>
+</head>
+<body>
+
+    <div id="splash">
+        <img src="logo.png" alt="Logo">
+    </div>
+    
+
+    <div class="container">
+        
+        <header class="header-cover" id="dynamic-bg">
+            <div class="top-logo">
+                <img src="logo.png">
+            </div>
+        </header>
+
+        <section class="profile-section">
+            <div class="profile-img-container">
+                <img src="perfil.jpeg" alt="">
+            </div>
+            <div class="social-bar">
+    <a href="https://wa.me/528117991418" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</div>
+            <div class="stats-below">
+                <div class="stat-box"><strong></strong><br>Más de 30 años</div>
+            </div>
+
+            <h1 class="name">Laura Navarro</h1>
+            <p class="role">Asesora Profesional de Seguros</p>
+
+            <div class="action-row">
+    <a href="productos.html" class="action-button" style="text-decoration: none; text-align: center;">Catálogo</a>
+    
+    <a href="clientes.html" class="action-button" style="text-decoration: none; text-align: center;">Clientes</a>
+</div>
+
+            
+        </section>
+    
+
+        <main class="section-content">
+    <div class="grid-container">
+        <div class="card"><img src="seguro de vida.webp"><p>Seguro de Vida</p></div>
+        <div class="card"><img src="gastos medicos.jpg"><p>Gastos Médicos</p></div>
+        </div>
+        
+    
+
+    <div class="aseguradoras-section">
+        <div class="slider-client">
+            <div class="slider">
+                <img src="AFIRME.png" alt="Afirme">
+                <img src="ANA_SEGUROS.png" alt="ANA Seguros">
+                <img src="AXA_SEGUROS.png" alt="AXA">
+                <img src="ASSIT_CARD.png" alt="Assist Card">
+                <img src="BX+.png" alt="BX+">
+                <img src="SEGUROS_BANORTE.png" alt="Seguros Banorte">
+                <img src="CHUBB.png" alt="Chubb">
+                <img src="GNP.png" alt="GNP Seguros">
+                <img src="MAPFRE.png" alt="Mapfre">
+                <img src="METLIFE.png" alt="Metlife">
+                <img src="QUALITAS.png" alt="Quálitas">
+                <img src="SEGUROS_MONTERREY.png" alt="Seguros Monterrey">
+                <img src="SURA.png" alt="Sura">
+                <img src="ZURICH.png" alt="Zurich">
+                <img src="AFIRME.png" alt="Afirme">
+                <img src="ANA_SEGUROS.png" alt="ANA Seguros">
+                <img src="AXA_SEGUROS.png" alt="AXA">
+                <img src="ASSIT_CARD.png" alt="Assist Card">
+                <img src="BX+.png" alt="BX+">
+                <img src="SEGUROS_BANORTE.png" alt="Seguros Banorte">
+                <img src="CHUBB.png" alt="Chubb">
+                <img src="GNP.png" alt="GNP Seguros">
+                <img src="MAPFRE.png" alt="Mapfre">
+                <img src="METLIFE.png" alt="Metlife">
+                <img src="QUALITAS.png" alt="Quálitas">
+                <img src="SEGUROS_MONTERREY.png" alt="Seguros Monterrey">
+                <img src="SURA.png" alt="Sura">
+                <img src="ZURICH.png" alt="Zurich">
+            </div>
+        </div>
+    </div>
+     <div class="grid-container">
+    <a href="https://www.nipponflex.com" target="_blank" class="card card-mini" style="grid-column: span 2;">
+            <img src="nipponflex logo.png" alt="Nipponflex">
+            <p>Nipponflex</p>
+        </a>
+        </div>
+</main>
+
+        <div class="bottom-nav">
+    <a href="index.html">
+        <div class="nav-item">
+            <i class="fas fa-box"></i> <p>Productos</p>
+        </div>
+    </a>
+    <a href="links.html">
+        <div class="nav-item">
+            <i class="fas fa-link"></i>
+            <p>Links</p>
+        </div>
+    </a>
+    <a href="galeria.html">
+        <div class="nav-item">
+            <i class="fas fa-images"></i>
+            <p>Galería</p>
+        </div>
+    </a>
+</div>
+    </div>
+
+    <script>
+        // Ocultar Splash Screen después de la animación
+        setTimeout(() => {
+            document.getElementById('splash').style.display = 'none';
+        }, 1800);
+
+        // Cambio de imagen de fondo cada 3 segundos
+        const imagenes = [
+            'https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=800',
+            'FONDO PAGINA LOOM.png',
+            'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=800'
+        ];
+        
+        let index = 0;
+        const bg = document.getElementById('dynamic-bg');
+
+        function rotateBackground() {
+            index = (index + 1) % imagenes.length;
+            // Aplicamos una superposición oscura para que el logo blanco resalte
+            bg.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('${imagenes[index]}')`;
+        }
+
+        // Iniciar con la primera imagen y configurar el intervalo
+        rotateBackground();
+        setInterval(rotateBackground, 3000); // 3000ms = 3.0 segundos
+    </script>
+</body>
+</html>
